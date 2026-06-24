@@ -672,8 +672,9 @@ button {
 }
 
 .navbar-brand img {
-  height: 52px;
+  height: 132px;
   width: auto;
+  
 }
 
 .navbar-links {
