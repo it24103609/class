@@ -2,6 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5000',
+  'https://class-chi-nine.vercel.app',
+  'https://class-ni3z.vercel.app'
+];
 const path = require('path');
 
 dotenv.config();
@@ -9,7 +16,16 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
