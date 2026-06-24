@@ -20,7 +20,7 @@ const AdminCourses = () => {
   const [courses, setCourses] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -49,7 +49,7 @@ const AdminCourses = () => {
   const resetForm = () => {
     setForm(emptyForm);
     setSelectedCourseId(null);
-    setImage(null);
+    setImageUrl('');
   };
 
   const loadCourse = (course) => {
@@ -64,7 +64,7 @@ const AdminCourses = () => {
       published: Boolean(course.published),
       featured: Boolean(course.featured),
     });
-    setImage(null);
+    setImageUrl(course.image || '');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -77,11 +77,7 @@ const AdminCourses = () => {
     setSaving(true);
 
     try {
-      const payload = new FormData();
-      Object.entries(form).forEach(([key, value]) => {
-        payload.append(key, value);
-      });
-      if (image) payload.append('image', image);
+      const payload = { ...form, imageUrl };
 
       if (selectedCourseId) {
         await axios.put(apiUrl(`/api/courses/${selectedCourseId}`), payload, config);
@@ -184,8 +180,17 @@ const AdminCourses = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Cover image</label>
-            <input type="file" className="form-input" onChange={(e) => setImage(e.target.files?.[0] || null)} />
+            <label className="form-label">Cover image URL</label>
+            <input
+              type="url"
+              className="form-input"
+              placeholder="https://example.com/image.jpg"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+            {imageUrl && (
+              <img src={imageUrl} alt="preview" style={{ marginTop: '0.5rem', maxHeight: '120px', borderRadius: '8px', objectFit: 'cover' }} />
+            )}
           </div>
 
           <div className="toolbar-actions" style={{ marginBottom: '1rem' }}>

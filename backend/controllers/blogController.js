@@ -21,17 +21,13 @@ const getBlogById = async (req, res) => {
 
 const createBlog = async (req, res) => {
   try {
-    const { title, content, published } = req.body;
-    let image = '';
-    if (req.file) {
-      image = `/uploads/${req.file.filename}`;
-    }
+    const { title, content, published, imageUrl } = req.body;
 
     const blog = new Blog({
       title,
       content,
       author: req.user.id,
-      image,
+      image: imageUrl || '',
       published: published === 'true' || published === true
     });
     

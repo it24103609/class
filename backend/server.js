@@ -9,7 +9,6 @@ const allowedOrigins = [
   'https://class-chi-nine.vercel.app',
   'https://class-ni3z.vercel.app'
 ];
-const path = require('path');
 
 dotenv.config();
 
@@ -27,7 +26,6 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI)

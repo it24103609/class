@@ -50,14 +50,10 @@ const getCourseById = async (req, res) => {
 
 const createCourse = async (req, res) => {
   try {
-    const { name, price, durationMonths, youtubeLink, description, category, published, featured } = req.body;
-    let image = '';
-    if (req.file) {
-      image = `/uploads/${req.file.filename}`;
-    }
+    const { name, price, durationMonths, youtubeLink, description, category, published, featured, imageUrl } = req.body;
 
     const course = new Course({
-      name, price, durationMonths, image, youtubeLink, description, category, 
+      name, price, durationMonths, image: imageUrl || '', youtubeLink, description, category, 
       published: published === 'true' || published === true, 
       featured: featured === 'true' || featured === true
     });
@@ -71,7 +67,7 @@ const createCourse = async (req, res) => {
 
 const updateCourse = async (req, res) => {
   try {
-    const { name, price, durationMonths, youtubeLink, description, category, published, featured } = req.body;
+    const { name, price, durationMonths, youtubeLink, description, category, published, featured, imageUrl } = req.body;
     const course = await Course.findById(req.params.id);
 
     if (course) {
@@ -84,8 +80,8 @@ const updateCourse = async (req, res) => {
       if (published !== undefined) course.published = published === 'true' || published === true;
       if (featured !== undefined) course.featured = featured === 'true' || featured === true;
 
-      if (req.file) {
-        course.image = `/uploads/${req.file.filename}`;
+      if (imageUrl !== undefined && imageUrl !== '') {
+        course.image = imageUrl;
       }
 
       const updatedCourse = await course.save();

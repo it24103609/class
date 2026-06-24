@@ -9,7 +9,7 @@ const AdminBlog = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [published, setPublished] = useState(true);
 
   if (!user || user.role !== 'admin') {
@@ -26,16 +26,9 @@ const AdminBlog = () => {
     event.preventDefault();
 
     try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('content', content);
-      formData.append('published', published);
-      if (image) formData.append('image', image);
-
-      await axios.post(apiUrl('/api/blogs'), formData, {
+      await axios.post(apiUrl('/api/blogs'), { title, content, published, imageUrl }, {
         headers: {
           Authorization: `Bearer ${user.token}`,
-          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -67,8 +60,17 @@ const AdminBlog = () => {
             <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea" required />
           </div>
           <div className="form-group">
-            <label className="form-label">Cover image</label>
-            <input type="file" className="form-input" onChange={(e) => setImage(e.target.files?.[0] || null)} />
+            <label className="form-label">Cover image URL</label>
+            <input
+              type="url"
+              className="form-input"
+              placeholder="https://example.com/image.jpg"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+            {imageUrl && (
+              <img src={imageUrl} alt="preview" style={{ marginTop: '0.5rem', maxHeight: '120px', borderRadius: '8px', objectFit: 'cover' }} />
+            )}
           </div>
           <label className="badge badge-neutral" style={{ width: 'fit-content' }}>
             <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} />
