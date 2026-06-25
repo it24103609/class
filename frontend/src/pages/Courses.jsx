@@ -74,9 +74,21 @@ const Courses = () => {
                 />
               )}
               <div className="card-body stack">
-                <div className="toolbar-actions" style={{ justifyContent: 'space-between' }}>
+                <div className="toolbar-actions" style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <span className="badge badge-primary">{course.category}</span>
-                  <strong>${course.price}</strong>
+                  <div className="stack" style={{ gap: '0.15rem', textAlign: 'right' }}>
+                    {course.originalPrice > course.price && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', justifyContent: 'flex-end' }}>
+                        <span style={{ textDecoration: 'line-through', color: 'var(--muted)' }}>
+                          Rs. {course.originalPrice}
+                        </span>
+                        <span style={{ color: 'var(--success)', fontWeight: 700 }}>
+                          {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}% Offer
+                        </span>
+                      </div>
+                    )}
+                    <strong style={{ fontSize: '1.15rem' }}>Rs. {course.price}</strong>
+                  </div>
                 </div>
                 <h2 className="card-title">{course.name}</h2>
                 <p className="card-copy">{course.durationMonths} months</p>

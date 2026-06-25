@@ -50,10 +50,10 @@ const getCourseById = async (req, res) => {
 
 const createCourse = async (req, res) => {
   try {
-    const { name, price, durationMonths, youtubeLink, description, category, published, featured, imageUrl } = req.body;
+    const { name, price, originalPrice, durationMonths, youtubeLink, description, category, published, featured, imageUrl } = req.body;
 
     const course = new Course({
-      name, price, durationMonths, image: imageUrl || '', youtubeLink, description, category, 
+      name, price, originalPrice, durationMonths, image: imageUrl || '', youtubeLink, description, category, 
       published: published === 'true' || published === true, 
       featured: featured === 'true' || featured === true
     });
@@ -67,12 +67,13 @@ const createCourse = async (req, res) => {
 
 const updateCourse = async (req, res) => {
   try {
-    const { name, price, durationMonths, youtubeLink, description, category, published, featured, imageUrl } = req.body;
+    const { name, price, originalPrice, durationMonths, youtubeLink, description, category, published, featured, imageUrl } = req.body;
     const course = await Course.findById(req.params.id);
 
     if (course) {
       course.name = name || course.name;
       course.price = price || course.price;
+      if (originalPrice !== undefined) course.originalPrice = originalPrice;
       course.durationMonths = durationMonths || course.durationMonths;
       course.youtubeLink = youtubeLink || course.youtubeLink;
       course.description = description || course.description;

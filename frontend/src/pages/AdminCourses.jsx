@@ -7,6 +7,7 @@ import { apiUrl, assetUrl } from '../config/api';
 const emptyForm = {
   name: '',
   price: '',
+  originalPrice: '',
   durationMonths: '',
   category: 'Programming',
   description: '',
@@ -57,6 +58,7 @@ const AdminCourses = () => {
     setForm({
       name: course.name || '',
       price: course.price || '',
+      originalPrice: course.originalPrice || '',
       durationMonths: course.durationMonths || '',
       category: course.category || 'Programming',
       description: course.description || '',
@@ -148,10 +150,14 @@ const AdminCourses = () => {
             <input className="form-input" value={form.name} onChange={(e) => handleChange('name', e.target.value)} required />
           </div>
 
-          <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '0.9rem' }}>
+          <div className="grid" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '0.9rem' }}>
             <div className="form-group">
-              <label className="form-label">Price</label>
+              <label className="form-label">Price (Sale)</label>
               <input type="number" className="form-input" value={form.price} onChange={(e) => handleChange('price', e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Original Price</label>
+              <input type="number" className="form-input" placeholder="e.g. 5000" value={form.originalPrice} onChange={(e) => handleChange('originalPrice', e.target.value)} />
             </div>
             <div className="form-group">
               <label className="form-label">Duration months</label>
@@ -263,6 +269,7 @@ const AdminCourses = () => {
                     <p className="card-copy">{course.description.slice(0, 140)}{course.description.length > 140 ? '...' : ''}</p>
                     <div className="toolbar-actions">
                       <button className="btn-secondary" onClick={() => loadCourse(course)} type="button">Edit</button>
+                      <Link to={`/admin/courses/${course._id}/days`} className="btn-secondary">📅 Manage Days</Link>
                       <button className="btn-ghost" onClick={() => handleDelete(course._id)} type="button">Delete</button>
                     </div>
                   </div>

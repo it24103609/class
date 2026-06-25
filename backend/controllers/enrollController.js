@@ -3,7 +3,7 @@ const Course = require('../models/Course');
 
 const enrollInCourse = async (req, res) => {
   try {
-    const { courseId, inquiryMessage } = req.body;
+    const { courseId, inquiryMessage, enrollmentCode } = req.body;
     
     // Check if course exists
     const course = await Course.findById(courseId);
@@ -14,13 +14,14 @@ const enrollInCourse = async (req, res) => {
     // Check if user is already enrolled/pending
     const existingEnrollment = await Enrollment.findOne({ user: req.user.id, course: courseId });
     if (existingEnrollment) {
-      return res.status(400).json({ message: 'You have already inquired about this course.' });
+      return res.status(400).json({ message: 'You have already applied for this course.' });
     }
 
     const enrollment = new Enrollment({
       user: req.user.id,
       course: courseId,
-      inquiryMessage
+      inquiryMessage,
+      enrollmentCode
     });
 
     const createdEnrollment = await enrollment.save();

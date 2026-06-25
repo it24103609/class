@@ -39,7 +39,7 @@ const StudentDashboard = () => {
         <div className="stack">
           <span className="eyebrow">Student</span>
           <h1 className="page-heading">Welcome, {user.name}</h1>
-          <p className="page-subheading">Your course inquiries and progress in one clear view.</p>
+          <p className="page-subheading">Your enrolled courses and progress in one clear view.</p>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ const StudentDashboard = () => {
       ) : enrollments.length === 0 ? (
         <div className="empty-state">
           <p className="card-copy">
-            You haven’t inquired about any courses yet.{' '}
+            You haven't enrolled in any courses yet.{' '}
             <Link to="/courses" style={{ color: 'var(--primary)', fontWeight: 700 }}>Browse courses</Link>
           </p>
         </div>
@@ -73,9 +73,39 @@ const StudentDashboard = () => {
                     {enrollment.status}
                   </span>
                 </div>
-                <Link to={`/courses/${enrollment.course._id}`} className="btn-secondary" style={{ width: 'fit-content' }}>
-                  View course
-                </Link>
+
+                {enrollment.status === 'pending' && (
+                  <div style={{
+                    background: 'rgba(255, 193, 7, 0.08)',
+                    border: '1px solid rgba(255, 193, 7, 0.25)',
+                    borderRadius: '10px',
+                    padding: '0.65rem 1rem',
+                    fontSize: '0.85rem',
+                    color: 'rgba(255,193,7,0.9)'
+                  }}>
+                    ⏳ Your enrollment code is being reviewed by the admin. You'll get access once confirmed.
+                  </div>
+                )}
+
+                {enrollment.status === 'enrolled' && (
+                  <Link
+                    to={`/my-course/${enrollment._id}`}
+                    className="btn-primary"
+                    style={{ width: 'fit-content', textDecoration: 'none' }}
+                  >
+                    🚀 Go to Course
+                  </Link>
+                )}
+
+                {enrollment.status === 'completed' && (
+                  <Link
+                    to={`/my-course/${enrollment._id}`}
+                    className="btn-secondary"
+                    style={{ width: 'fit-content', textDecoration: 'none' }}
+                  >
+                    📖 View Course
+                  </Link>
+                )}
               </div>
             </article>
           ))}

@@ -64,7 +64,7 @@ const AdminEnrollments = () => {
         <div className="stack">
           <span className="eyebrow">Admin</span>
           <h1 className="page-heading">Enrollments</h1>
-          <p className="page-subheading">Track student inquiries and move them through your workflow.</p>
+          <p className="page-subheading">Review student codes and confirm or reject their enrollments.</p>
         </div>
         <div className="toolbar-actions">
           <Link to="/admin" className="btn-secondary">Back to dashboard</Link>
@@ -91,7 +91,26 @@ const AdminEnrollments = () => {
                     {enrollment.status}
                   </span>
                 </div>
-                <p className="card-copy">{enrollment.inquiryMessage || 'No inquiry message provided.'}</p>
+
+                {/* Enrollment Code — key info for admin to verify */}
+                <div style={{
+                  background: 'var(--surface-2, rgba(255,255,255,0.05))',
+                  border: '1px solid var(--border, rgba(255,255,255,0.1))',
+                  borderRadius: '10px',
+                  padding: '0.6rem 1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem'
+                }}>
+                  <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Code</span>
+                  <code style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '1rem', letterSpacing: '0.08em' }}>
+                    {enrollment.enrollmentCode || <em style={{ opacity: 0.4, fontStyle: 'italic', fontWeight: 400 }}>No code provided</em>}
+                  </code>
+                </div>
+
+                {enrollment.inquiryMessage && (
+                  <p className="card-copy">{enrollment.inquiryMessage}</p>
+                )}
 
                 <div className="toolbar-actions">
                   {statusOptions.map((status) => (
@@ -102,7 +121,7 @@ const AdminEnrollments = () => {
                       onClick={() => updateStatus(enrollment._id, status)}
                       disabled={updatingId === enrollment._id}
                     >
-                      {status}
+                      {status === 'pending' ? '⏳ Pending' : status === 'enrolled' ? '✅ Confirm' : '🏆 Complete'}
                     </button>
                   ))}
                 </div>

@@ -14,6 +14,8 @@ import Blog from './pages/Blog';
 import AdminBlog from './pages/AdminBlog';
 import AdminCourses from './pages/AdminCourses';
 import AdminEnrollments from './pages/AdminEnrollments';
+import AdminCourseDays from './pages/AdminCourseDays';
+import MyCourse from './pages/MyCourse';
 
 function App() {
   return (
@@ -32,9 +34,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/courses" element={<AdminCourses />} />
+            <Route path="/admin/courses/:courseId/days" element={<AdminCourseDays />} />
             <Route path="/admin/enrollments" element={<AdminEnrollments />} />
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/dashboard" element={<StudentDashboard />} />
+            <Route path="/my-course/:enrollmentId" element={<MyCourse />} />
           </Routes>
         </main>
         <Footer />
