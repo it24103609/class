@@ -1,5 +1,9 @@
 const Enrollment = require('../models/Enrollment');
 const Course = require('../models/Course');
+const CvRegistration = require('../models/CvRegistration');
+const Website = require('../models/Website');
+const MobileApp = require('../models/MobileApp');
+const PurchaseInquiry = require('../models/PurchaseInquiry');
 
 const enrollInCourse = async (req, res) => {
   try {
@@ -51,16 +55,41 @@ const getAllEnrollments = async (req, res) => {
 
 const getDashboardStats = async (req, res) => {
   try {
-    const totalCourses = await Course.countDocuments();
-    const activeStudents = (await Enrollment.distinct('user')).length;
-    const totalEnrollments = await Enrollment.countDocuments();
-    const featuredCourses = await Course.countDocuments({ featured: true });
+    const [
+      totalCourses,
+      activeStudents,
+      totalEnrollments,
+      featuredCourses,
+      cvRegistrations,
+      pendingCvRegistrations,
+      totalWebsites,
+      totalMobileApps,
+      purchaseInquiries,
+      pendingPurchases,
+    ] = await Promise.all([
+      Course.countDocuments(),
+      Enrollment.distinct('user').then((users) => users.length),
+      Enrollment.countDocuments(),
+      Course.countDocuments({ featured: true }),
+      CvRegistration.countDocuments(),
+      CvRegistration.countDocuments({ status: 'pending' }),
+      Website.countDocuments(),
+      MobileApp.countDocuments(),
+      PurchaseInquiry.countDocuments(),
+      PurchaseInquiry.countDocuments({ status: 'pending' }),
+    ]);
 
     res.json({
       totalCourses,
       activeStudents,
       totalEnrollments,
-      featuredCourses
+      featuredCourses,
+      cvRegistrations,
+      pendingCvRegistrations,
+      totalWebsites,
+      totalMobileApps,
+      purchaseInquiries,
+      pendingPurchases,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -11,6 +11,12 @@ const AdminDashboard = () => {
     activeStudents: 0,
     totalEnrollments: 0,
     featuredCourses: 0,
+    cvRegistrations: 0,
+    pendingCvRegistrations: 0,
+    totalWebsites: 0,
+    totalMobileApps: 0,
+    purchaseInquiries: 0,
+    pendingPurchases: 0,
   });
 
   const config = useMemo(() => ({
@@ -24,7 +30,7 @@ const AdminDashboard = () => {
         .then((response) => setStats(response.data))
         .catch((error) => console.error(error));
     }
-  }, [user?.role]);
+  }, [user?.role, config]);
 
   if (!user || user.role !== 'admin') {
     return (
@@ -41,7 +47,21 @@ const AdminDashboard = () => {
     { label: 'Total Courses', value: stats.totalCourses },
     { label: 'Active Students', value: stats.activeStudents },
     { label: 'Enrollments', value: stats.totalEnrollments },
-    { label: 'Featured Courses', value: stats.featuredCourses },
+    { label: 'CV Registrations', value: stats.cvRegistrations },
+    { label: 'Websites', value: stats.totalWebsites },
+    { label: 'Mobile Apps', value: stats.totalMobileApps },
+    { label: 'Purchase Inquiries', value: stats.purchaseInquiries },
+    { label: 'Pending CV / Purchases', value: stats.pendingCvRegistrations + stats.pendingPurchases },
+  ];
+
+  const adminLinks = [
+    { to: '/admin/courses', label: 'Manage Courses' },
+    { to: '/admin/enrollments', label: 'Enrollments' },
+    { to: '/admin/blog', label: 'Create Blog' },
+    { to: '/admin/websites', label: 'Manage Websites' },
+    { to: '/admin/mobileapps', label: 'Manage Mobile Apps' },
+    { to: '/admin/cv-registrations', label: 'CV Registrations' },
+    { to: '/admin/purchases', label: 'Purchase Inquiries' },
   ];
 
   return (
@@ -50,11 +70,11 @@ const AdminDashboard = () => {
         <div className="stack">
           <span className="eyebrow">Admin panel</span>
           <h1 className="page-heading">Dashboard overview</h1>
-          <p className="page-subheading">A clean control center for courses, enrollments, and publishing.</p>
+          <p className="page-subheading">Control center for courses, CV service, websites, mobile apps, and purchases.</p>
         </div>
         <div className="toolbar-actions">
           <Link to="/admin/courses" className="btn-primary">Manage courses</Link>
-          <Link to="/admin/enrollments" className="btn-secondary">View enrollments</Link>
+          <Link to="/admin/cv-registrations" className="btn-secondary">CV registrations</Link>
         </div>
       </div>
 
@@ -67,9 +87,9 @@ const AdminDashboard = () => {
             </div>
             <nav className="dashboard-nav">
               <Link to="/admin">Dashboard</Link>
-              <Link to="/admin/courses">Manage Courses</Link>
-              <Link to="/admin/enrollments">Enrollments</Link>
-              <Link to="/admin/blog">Create Blog</Link>
+              {adminLinks.map((link) => (
+                <Link key={link.to} to={link.to}>{link.label}</Link>
+              ))}
             </nav>
           </div>
         </aside>
@@ -90,21 +110,23 @@ const AdminDashboard = () => {
                 <h2 className="card-title">Quick actions</h2>
                 <p className="card-copy">Jump straight into the most common admin tasks.</p>
                 <div className="toolbar-actions">
-                  <Link to="/admin/courses" className="btn-primary">Create or edit courses</Link>
-                  <Link to="/admin/enrollments" className="btn-secondary">Review student inquiries</Link>
-                  <Link to="/admin/blog" className="btn-secondary">Publish a blog post</Link>
+                  <Link to="/admin/courses" className="btn-primary">Courses</Link>
+                  <Link to="/admin/websites" className="btn-secondary">Websites</Link>
+                  <Link to="/admin/mobileapps" className="btn-secondary">Mobile Apps</Link>
+                  <Link to="/admin/cv-registrations" className="btn-secondary">CV service</Link>
+                  <Link to="/admin/purchases" className="btn-secondary">Purchases</Link>
                 </div>
               </div>
             </div>
 
             <div className="content-panel">
               <div className="stack">
-                <h2 className="card-title">What’s working now</h2>
+                <h2 className="card-title">New features</h2>
                 <div className="stack" style={{ gap: '0.75rem' }}>
-                  <span className="badge badge-success">Secure admin API</span>
-                  <span className="badge badge-primary">Course CRUD</span>
-                  <span className="badge badge-warning">Enrollment status updates</span>
-                  <span className="badge badge-neutral">Mobile-friendly layout</span>
+                  <span className="badge badge-success">Home page CV registration (₹1,000)</span>
+                  <span className="badge badge-primary">Websites with buy form</span>
+                  <span className="badge badge-warning">Mobile apps with buy form</span>
+                  <span className="badge badge-neutral">All data stored in admin dashboard</span>
                 </div>
               </div>
             </div>

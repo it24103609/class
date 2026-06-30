@@ -16,6 +16,12 @@ import AdminCourses from './pages/AdminCourses';
 import AdminEnrollments from './pages/AdminEnrollments';
 import AdminCourseDays from './pages/AdminCourseDays';
 import MyCourse from './pages/MyCourse';
+import Websites from './pages/Websites';
+import MobileApps from './pages/MobileApps';
+import AdminWebsites from './pages/AdminWebsites';
+import AdminMobileApps from './pages/AdminMobileApps';
+import AdminCvRegistrations from './pages/AdminCvRegistrations';
+import AdminPurchases from './pages/AdminPurchases';
 
 function App() {
   return (
@@ -27,6 +33,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/websites" element={<Websites />} />
+            <Route path="/mobileapps" element={<MobileApps />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:id" element={<CourseDetails />} />
@@ -37,6 +45,10 @@ function App() {
             <Route path="/admin/courses/:courseId/days" element={<AdminCourseDays />} />
             <Route path="/admin/enrollments" element={<AdminEnrollments />} />
             <Route path="/admin/blog" element={<AdminBlog />} />
+            <Route path="/admin/websites" element={<AdminWebsites />} />
+            <Route path="/admin/mobileapps" element={<AdminMobileApps />} />
+            <Route path="/admin/cv-registrations" element={<AdminCvRegistrations />} />
+            <Route path="/admin/purchases" element={<AdminPurchases />} />
             <Route path="/dashboard" element={<StudentDashboard />} />
             <Route path="/my-course/:enrollmentId" element={<MyCourse />} />
           </Routes>
