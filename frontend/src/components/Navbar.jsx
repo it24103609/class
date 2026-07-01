@@ -7,12 +7,12 @@ import './Navbar.css';
 
 const navItems = [
   { to: '/', label: 'Home' },
-  { to: '/about', label: 'About' },
-  { to: '/services', label: 'Services' },
   { to: '/websites', label: 'Websites' },
   { to: '/mobileapps', label: 'Mobile Apps' },
   { to: '/courses', label: 'Courses' },
   { to: '/blog', label: 'Blog' },
+   
+  
 ];
 
 const Navbar = () => {
