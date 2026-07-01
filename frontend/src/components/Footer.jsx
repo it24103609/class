@@ -29,9 +29,9 @@ const Footer = () => {
           <div>
             <h4 className="footer-title">Contact</h4>
             <ul className="footer-list">
-              <li>hello@quicklearn.com</li>
-              <li>+1 234 567 890</li>
-              <li>Mon - Fri, 9AM - 6PM</li>
+              <li>quicklearnacademy.lk@gmail.com</li>
+              <li>+94 77 606 0041</li>
+              <li><a href="https://web.facebook.com/profile.php?id=61591361932594" target="_blank" rel="noopener noreferrer" className="footer-link">Facebook</a></li>
             </ul>
           </div>
         </div>
